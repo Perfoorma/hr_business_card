@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="business_card_employee_view">
+        <field name="name">business.card.employee.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Business Card">
+                        <group>
+                            <field name="bcFirstname" />
+                            <field name="bcLastname" />
+                            <field name="enable_business_card" />
+                            <field name="gif"  widget="image" />
+                            <field name="linkedin" />
+                            <field name="url" widget="CopyClipboardChar"/>
+                            <field name="qr_code"  widget="image" />
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+    </record>
+    
+    <template id="business_card" name="Business Card">
+        <t t-call="website.layout">
+            <link rel="stylesheet" href="/business_card/static/src/css/style.css"/>
+            <div class="oe_structure">
+                <div class="container">
+                    <div class="scene mx-auto scene--cardflip">
+                        <div class="cardflip">
+                            <div class="card shadow-lg mx-auto px-1 cardflip__face cardflip__face--front">
+                                <div class="corner">
+                                </div>
+                                <img t-attf-src="data:image/*;base64,{{employee_data.company_id.logo}}" t-att-alt="employee_data.company_id.name" class="img-fluid img-hero mx-auto"/>
+                                <div class="card-body text-center">
+                                    <div class="card-icon">
+                                        <t t-if="employee_data.gif">
+                                            <img t-attf-src="data:image/*;base64,{{employee_data.gif}}" alt="" class="lord-icon" style="width: 10rem; height: 10rem;"/>
+                                        </t>
+                                        <t t-if="not employee_data.gif">
+                                            <img t-attf-src="data:image/*;base64,{{employee_data.company_id.gif}}" alt="" class="lord-icon" style="width: 10rem; height: 10rem;"/>
+                                        </t>
+                                    </div>
+                                    <h1 class="card-title fs-4 pt-2"><span t-esc="employee_data.name" id="employee_data_name"/></h1>
+                                    <h2 class="card-text fs-4"><span t-esc="employee_data.job_title"/></h2>
+
+                                    <div id="social">
+                                        <t t-if="employee_data.company_id.social_facebook">
+                                            <a t-attf-href="{{employee_data.company_id.social_facebook}}">
+                                                <img t-attf-src="/business_card/static/src/img/facebook.svg" alt="Facebook"/>
+                                            </a>
+                                        </t>
+                                        <t t-if="employee_data.linkedin">
+                                            <a t-attf-href="{{employee_data.linkedin}}">
+                                                <img t-attf-src="/business_card/static/src/img/linkedin.svg" alt="LinkedIn"/>
+                                            </a>
+                                        </t>
+                                        <t t-if="not employee_data.linkedin">
+                                            <t t-if="employee_data.company_id.social_linkedin">
+                                                <a t-attf-href="{{employee_data.company_id.social_linkedin}}">
+                                                    <img t-attf-src="/business_card/static/src/img/linkedin.svg" alt="LinkedIn"/>
+                                                </a>
+                                            </t>
+                                        </t>
+                                        <t t-if="employee_data.company_id.social_instagram">
+                                            <a t-attf-href="{{employee_data.company_id.social_instagram}}">
+                                                <img t-attf-src="/business_card/static/src/img/instagram.svg" alt="Instagram"/>
+                                            </a>
+                                        </t>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="card shadow-lg mx-auto px-1 pt-4 cardflip__face cardflip__face--back">
+                                <div class="corner"></div>
+                                <div class="card-body">
+                                    <h1 class="card-title fs-4 pt-2"><span t-esc="employee_data.name"/></h1>
+                                    <h2 class="card-text fs-4"><span t-esc="employee_data.job_title"/></h2>
+                                    <div class="pt-3">
+                                        <ul class="list-unstyled">
+                                            <li class="d-flex pt-2"> 
+                                                <a t-attf-href="mailto:{{employee_data.work_email}}">
+                                                    <span t-esc="employee_data.work_email"/>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <span t-esc="employee_data.work_phone"/>
+                                            </li>
+                                            <li class="d-flex pt-2">
+                                                <a t-attf-href="{{employee_data.company_id.website}}">
+                                                    <span t-esc="employee_data.company_id.website"/>
+                                                </a>
+                                            </li>
+                                            <li class="fw-bold d-flex pt-2"><span t-esc="employee_data.company_id.name"/></li>
+                                            <li class="d-flex pt-2"> 
+                                                <img t-attf-src="/business_card/static/src/img/map-marker-alt-solid.svg" alt="" style="width: 1rem; height: 1rem;"/>
+                                                <span t-esc="employee_data.company_id.street"/>
+                                            </li>
+                                            <li>
+                                                <span t-esc="employee_data.company_id.street2"/>
+                                            </li>
+                                            <li>
+                                                <span t-esc="employee_data.company_id.zip"/>
+                                                <span t-esc="employee_data.company_id.city"/>
+                                                (<span t-esc="employee_data.company_id.state_id.name"/>)
+                                                <span t-esc="employee_data.company_id.country_id.name"/>
+                                            </li>
+                                            <t t-if="employee_data.company_id.vat">
+                                                <li class="py-1">
+                                                    <span class="fw-bold">VAT</span>
+                                                    <span t-esc="employee_data.company_id.vat"/>
+                                                </li>
+                                            </t>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <img t-attf-src="data:image/*;base64,{{employee_data.company_id.logo}}" class="img-fluid w-50 mx-auto pb-5"  t-att-alt="employee_data.company_id.name"/>
+                            </div>
+
+                        </div>
+                        <div class="text-center pt-3">
+                            <input type="hidden" id="vcf_name" t-att-value="employee_data.name"/>
+                            <input type="hidden" id="vcf_firstname" t-att-value="employee_data.bcFirstname"/>
+                            <input type="hidden" id="vcf_lastname" t-att-value="employee_data.bcLastname"/>
+                            <input type="hidden" id="vcf_phone" t-att-value="employee_data.work_phone"/>
+                            <input type="hidden" id="vcf_street" t-att-value="employee_data.company_id.street"/>
+                            <input type="hidden" id="vcf_street2" t-att-value="employee_data.company_id.street2"/>
+                            <input type="hidden" id="vcf_city" t-att-value="employee_data.company_id.city"/>
+                            <input type="hidden" id="vcf_zip" t-att-value="employee_data.company_id.zip"/>
+                            <input type="hidden" id="vcf_state" t-att-value="employee_data.company_id.state_id.name"/>
+                            <input type="hidden" id="vcf_country" t-att-value="employee_data.company_id.country_id.name"/>
+                            <input type="hidden" id="vcf_email" t-att-value="employee_data.work_email"/>
+                            <input type="hidden" id="vcf_website" t-att-value="employee_data.company_id.website"/>
+                            <input type="hidden" id="vcf_job_title" t-att-value="employee_data.job_title"/>
+                            <input type="hidden" id="vcf_company_name" t-att-value="employee_data.company_id.name"/>
+                            <input type="hidden" id="vcf_company_vat" t-att-value="employee_data.company_id.vat"/>
+                            <input type="file" id="fileVCF" style="display:none" />
+                            <button id="downloadVCF" class="btn btn-secondary text-white btn-lg">Add <span t-esc="employee_data.name"/> </button>            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="/business_card/static/src/js/main.js"/>
+            <script src="/business_card/static/src/js/vcf.js"/>
+        </t>
+    </template>
+
+    <record model="ir.ui.view" id="business_card_company_view">
+        <field name="name">business.card.company.view</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Business Card">
+                        <group>
+                            <field name="logo"  widget="image" />
+                            <field name="gif"   widget="image"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+    </record>
+
+    <template id="business_card_company" name="Business Card Company">
+        <t t-call="website.layout">
+            <div class="oe_structure">
+                <div class="container"><br />
+                    <span t-esc="employee_data.name" />
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
