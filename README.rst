@@ -3,6 +3,9 @@ HR Business Card Addon
 
 Introducing the Eco-Friendly Business Card Addon for Odoo!
 
+.. image:: ./static/description/assets/fabien_pinckaers.gif
+      :alt: Fabien
+
 In today's digital age, sustainability and efficiency are key considerations for businesses striving to reduce their environmental impact. One significant way to achieve this is by minimizing paper waste. We are excited to introduce our innovative Odoo addon that revolutionizes the traditional business card by leveraging the power of a public website. Say goodbye to paper waste and hello to the future of networking with our Eco-Friendly Business Card addon!
 
 Key Features
@@ -32,7 +35,7 @@ After installation:
    - Go to the company form.
    - In the "Business Card" section, customize your card by adding a dedicated logo to represent your brand and a generic GIF to make your cards more engaging and fun.
 
-   .. image:: ./assets/business_card_odoo_company.png
+   .. image:: ./static/description/assets/business_card_odoo_company.png
       :alt: ODOO Company form
 
 2. **Employee Settings:**
@@ -40,7 +43,7 @@ After installation:
    - Check "Enable Business Card".
    - In the "Business Card" section, enter the employee's first name, last name, LinkedIn link, and add a different GIF to personalize their card and make it more lively.
 
-   .. image:: ./assets/business_card_odoo_employee.png
+   .. image:: ./static/description/assets/business_card_odoo_employee.png
       :alt: ODOO Employee form
 
    - Copy the link from the employee form and navigate to your business card. Enjoy the seamless, eco-friendly way of sharing your professional details! 😊
