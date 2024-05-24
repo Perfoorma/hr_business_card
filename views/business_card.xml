@@ -5,16 +5,21 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
+                <field name="mobile_phone" position="before">
+                     <field name="enable_business_card" />
+                </field>
                 <notebook position="inside">
-                    <page string="Business Card">
-                        <group>
+                    <page string="Business Card" invisible="not enable_business_card">
+                        <group columns="2">
                             <field name="bcFirstname" />
                             <field name="bcLastname" />
-                            <field name="enable_business_card" />
-                            <field name="gif"  widget="image" />
+                           
+                            <field name="gif"  widget="image"  options="{'size': [150, 150]}"/>
+                        </group>
+                        <group columns="2">
                             <field name="linkedin" />
                             <field name="url" widget="CopyClipboardChar"/>
-                            <field name="qr_code"  widget="image" />
+                            <field name="qr_code"  widget="image"  options="{'size': [150, 150]}"/>
                         </group>
                     </page>
                 </notebook>
@@ -23,15 +28,15 @@
     
     <template id="business_card" name="Business Card">
         <t t-call="website.layout">
-            <link rel="stylesheet" href="/business_card/static/src/css/style.css"/>
+            <link rel="stylesheet" href="/hr_business_card/static/src/css/style.css"/>
             <div class="oe_structure">
                 <div class="container">
-                    <div class="scene mx-auto scene--cardflip">
+                    <div class="scene mx-auto scene--cardflip" style="margin:15px; !important">
                         <div class="cardflip">
                             <div class="card shadow-lg mx-auto px-1 cardflip__face cardflip__face--front">
                                 <div class="corner">
                                 </div>
-                                <img t-attf-src="data:image/*;base64,{{employee_data.company_id.logo}}" t-att-alt="employee_data.company_id.name" class="img-fluid img-hero mx-auto"/>
+                                <img t-attf-src="data:image/*;base64,{{employee_data.company_id.bc_logo}}" t-att-alt="employee_data.company_id.name" class="img-fluid img-hero mx-auto"/>
                                 <div class="card-body text-center">
                                     <div class="card-icon">
                                         <t t-if="employee_data.gif">
@@ -47,24 +52,24 @@
                                     <div id="social">
                                         <t t-if="employee_data.company_id.social_facebook">
                                             <a t-attf-href="{{employee_data.company_id.social_facebook}}">
-                                                <img t-attf-src="/business_card/static/src/img/facebook.svg" alt="Facebook"/>
+                                                <img t-attf-src="/hr_business_card/static/src/img/facebook.svg" alt="Facebook"/>
                                             </a>
                                         </t>
                                         <t t-if="employee_data.linkedin">
                                             <a t-attf-href="{{employee_data.linkedin}}">
-                                                <img t-attf-src="/business_card/static/src/img/linkedin.svg" alt="LinkedIn"/>
+                                                <img t-attf-src="/hr_business_card/static/src/img/linkedin.svg" alt="LinkedIn"/>
                                             </a>
                                         </t>
                                         <t t-if="not employee_data.linkedin">
                                             <t t-if="employee_data.company_id.social_linkedin">
                                                 <a t-attf-href="{{employee_data.company_id.social_linkedin}}">
-                                                    <img t-attf-src="/business_card/static/src/img/linkedin.svg" alt="LinkedIn"/>
+                                                    <img t-attf-src="/hr_business_card/static/src/img/linkedin.svg" alt="LinkedIn"/>
                                                 </a>
                                             </t>
                                         </t>
                                         <t t-if="employee_data.company_id.social_instagram">
                                             <a t-attf-href="{{employee_data.company_id.social_instagram}}">
-                                                <img t-attf-src="/business_card/static/src/img/instagram.svg" alt="Instagram"/>
+                                                <img t-attf-src="/hr_business_card/static/src/img/instagram.svg" alt="Instagram"/>
                                             </a>
                                         </t>
                                     </div>
@@ -85,7 +90,9 @@
                                                 </a>
                                             </li>
                                             <li>
+                                             <a t-attf-href="tel:{{employee_data.work_phone}}">
                                                 <span t-esc="employee_data.work_phone"/>
+                                             </a>
                                             </li>
                                             <li class="d-flex pt-2">
                                                 <a t-attf-href="{{employee_data.company_id.website}}">
@@ -93,8 +100,10 @@
                                                 </a>
                                             </li>
                                             <li class="fw-bold d-flex pt-2"><span t-esc="employee_data.company_id.name"/></li>
-                                            <li class="d-flex pt-2"> 
-                                                <img t-attf-src="/business_card/static/src/img/map-marker-alt-solid.svg" alt="" style="width: 1rem; height: 1rem;"/>
+                                            <a t-attf-href="https://www.google.com/maps/dir/?api=1&amp;destination={{employee_data.company_id.street}},{{employee_data.company_id.city}},{{employee_data.company_id.state_id.name}},{{employee_data.company_id.country_id.name}},{{employee_data.company_id.zip}}">
+
+                                            <li class="d-flex pt-2" > 
+                                                <img t-attf-src="/hr_business_card/static/src/img/map-marker-alt-solid.svg" alt="" style="width: 1rem; height: 1rem;"/>
                                                 <span t-esc="employee_data.company_id.street"/>
                                             </li>
                                             <li>
@@ -106,6 +115,7 @@
                                                 (<span t-esc="employee_data.company_id.state_id.name"/>)
                                                 <span t-esc="employee_data.company_id.country_id.name"/>
                                             </li>
+                                            </a>
                                             <t t-if="employee_data.company_id.vat">
                                                 <li class="py-1">
                                                     <span class="fw-bold">VAT</span>
@@ -115,7 +125,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <img t-attf-src="data:image/*;base64,{{employee_data.company_id.logo}}" class="img-fluid w-50 mx-auto pb-5"  t-att-alt="employee_data.company_id.name"/>
+                                <img t-attf-src="data:image/*;base64,{{employee_data.company_id.bc_logo}}" class="img-fluid w-50 mx-auto pb-5"  t-att-alt="employee_data.company_id.name"/>
                             </div>
 
                         </div>
@@ -136,13 +146,13 @@
                             <input type="hidden" id="vcf_company_name" t-att-value="employee_data.company_id.name"/>
                             <input type="hidden" id="vcf_company_vat" t-att-value="employee_data.company_id.vat"/>
                             <input type="file" id="fileVCF" style="display:none" />
-                            <button id="downloadVCF" class="btn btn-secondary text-white btn-lg">Add <span t-esc="employee_data.name"/> </button>            
+                            <button id="downloadVCF" style="margin:15px; !important" class="btn btn-secondary text-white btn-lg"><i class="fa fa-address-book" aria-hidden="true"></i> <span t-esc="employee_data.name"/> </button>            
                         </div>
                     </div>
                 </div>
             </div>
-            <script src="/business_card/static/src/js/main.js"/>
-            <script src="/business_card/static/src/js/vcf.js"/>
+            <script src="/hr_business_card/static/src/js/main.js"/>
+            <script src="/hr_business_card/static/src/js/vcf.js"/>
         </t>
     </template>
 
@@ -152,10 +162,10 @@
         <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
                 <notebook position="inside">
-                    <page string="Business Card">
-                        <group>
-                            <field name="logo"  widget="image" />
-                            <field name="gif"   widget="image"/>
+                    <page string="Business Card" >
+                        <group columns="2" >
+                            <field name="bc_logo"  widget="image" options="{'size': [150, 150]}" />
+                            <field name="gif"   widget="image" options="{'size': [150, 150]}"/>
                         </group>
                     </page>
                 </notebook>

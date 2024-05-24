@@ -13,5 +13,5 @@ class BusinessCard(http.Controller):
                     'employee_data': employee_data
                 } 
                 if employee_data.enable_business_card:
-                    return request.render('business_card.business_card',values)
+                    return request.render('hr_business_card.business_card',values)
         raise NotFound()

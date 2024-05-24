@@ -13,13 +13,13 @@ from io import BytesIO
 class EmployeeBusinessCard(models.Model):
     _inherit = "hr.employee"
 
-    enable_business_card=fields.Boolean(string="Enable Business Card", default=False)
-    gif=fields.Binary()
-    linkedin=fields.Char()
-    url=fields.Char(string="Business Card URL", compute="_url")
-    bcFirstname=fields.Char(string="First Name")
-    bcLastname=fields.Char(string="Last Name")
-    qr_code=fields.Binary("QR Code", compute='_generate_qr_code')
+    enable_business_card=fields.Boolean(string="Enable Business Card", default=False, groups="hr.group_hr_user")
+    gif=fields.Binary(groups="hr.group_hr_user")
+    linkedin=fields.Char(groups="hr.group_hr_user")
+    url=fields.Char(string="Business Card URL", compute="_url", groups="hr.group_hr_user")
+    bcFirstname=fields.Char(string="First Name", groups="hr.group_hr_user")
+    bcLastname=fields.Char(string="Last Name", groups="hr.group_hr_user")
+    qr_code=fields.Binary("QR Code", compute='_generate_qr_code', groups="hr.group_hr_user")
 
 
     @api.depends("url")
