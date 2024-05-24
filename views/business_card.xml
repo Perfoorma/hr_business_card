@@ -118,7 +118,7 @@
                                             </a>
                                             <t t-if="employee_data.company_id.vat">
                                                 <li class="py-1">
-                                                    <span class="fw-bold">VAT</span>
+                                                    <span class="fw-bold">VAT Number</span>
                                                     <span t-esc="employee_data.company_id.vat"/>
                                                 </li>
                                             </t>
