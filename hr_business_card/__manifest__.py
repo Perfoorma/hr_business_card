@@ -6,7 +6,7 @@
         'hr',
         'website'
         ],
-    'author': "Perfoorma, Michele Dario Scalia, Sherpya",
+    'author': "Perfoorma, Michele Dario Scalia, sherpya",
     'category': 'Human Resources',
     'summary':"""
              Your business card can reduce paper waste!""",
