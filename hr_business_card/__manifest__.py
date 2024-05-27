@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Business Card",
-    'version': '17.0.0.0',
+    'version': '16.0.0.0',
     'depends': [
         'hr',
         'website'
         ],
-    'author': "Perfoorma, Michele Dario Scalia, Sherpya",
+    'author': "Perfoorma, Michele Dario Scalia, sherpya",
     'category': 'Human Resources',
     'summary':"""
              Your business card can reduce paper waste!""",

@@ -9,7 +9,7 @@
                      <field name="enable_business_card" />
                 </field>
                 <notebook position="inside">
-                    <page string="Business Card" invisible="not enable_business_card">
+                    <page string="Business Card" attrs="{'invisible':[('enable_business_card','=',False)]}">
                         <group columns="2">
                             <field name="bcFirstname" />
                             <field name="bcLastname" />
