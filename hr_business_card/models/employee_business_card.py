@@ -16,7 +16,7 @@ class EmployeeBusinessCard(models.Model):
     enable_business_card=fields.Boolean(string="Enable Business Card", default=False, groups="hr.group_hr_user")
     gif=fields.Binary(groups="hr.group_hr_user")
     linkedin=fields.Char(groups="hr.group_hr_user")
-    url=fields.Char(string="Business Card URL", compute="_url", groups="hr.group_hr_user")
+    url=fields.Char(string="Business Card URL", compute="_url", groups="hr.group_hr_user",store="True")
     bcFirstname=fields.Char(string="First Name", groups="hr.group_hr_user")
     bcLastname=fields.Char(string="Last Name", groups="hr.group_hr_user")
     qr_code=fields.Binary("QR Code", compute='_generate_qr_code', groups="hr.group_hr_user")
@@ -35,7 +35,7 @@ class EmployeeBusinessCard(models.Model):
                qr_image = base64.b64encode(temp.getvalue())
                rec.update({'qr_code': qr_image})
 
-
+    @api.depends("enable_business_card")
     def _url(self):
         for record in self:
-            record.url=self.env['ir.config_parameter'].get_param('web.base.url').rstrip('/')+"/business-card?employee="+str(record.id)
+            record.url=self.env['ir.config_parameter'].sudo().get_param('web.base.url').rstrip('/')+"/business-card?employee="+str(record.id)
